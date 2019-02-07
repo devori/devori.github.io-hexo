@@ -79,5 +79,5 @@ theme: hueman
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:devori/blog-hexo.git
+  repo: git@github.com:devori/devori.github.io.git
   branch: master
