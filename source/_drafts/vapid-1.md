@@ -1,10 +1,9 @@
 ---
-title: VAPID
+title: VAPID - (1)
 date: 2019-02-08 13:34:57
 categories:
 - Web
 - PWA
-- Push
 tags:
 - Web
 - PWA
@@ -14,11 +13,11 @@ tags:
 
 ---
 
-# Voluntary Application Server Identification (VAPID) for Web Push
+# Voluntary Application Server Identification (VAPID) for Web Push - (1)
 ![Web Encryption](/images/cyber-security.png)
 
-### Progressive Web App 을 이용한 웹 푸시
-웹이 진화함에 따라, PWA를 이요한 웹 푸시를 사용할 수 있게 되었다.
+## Progressive Web App 을 이용한 웹 푸시
+웹이 진화함에 따라, PWA를 이용한 웹 푸시를 사용할 수 있게 되었다.
 이를 통해 사용자의 브라우저에 메시지를 보낼 수 있고, 사용자는 브라우저가 백그라운드에 실행중인 상태에서도 메시지를 받을 수 있다.
 
 이러한 메시지는 아래와 같은 순서로 전달된다.
@@ -30,7 +29,7 @@ Push Service Provider -> 사용자 브라우저
 
 ---
 
-### 세가지 취약점
+## 세가지 취약점
 각 통신 구간은 HTTPS 를 통해 보호되고, 메시지가 보호된다.
 하지만, 위의 메시지 전달에는 **몇가지 취약점**이 존재한다.
 
@@ -39,7 +38,7 @@ Push Service Provider -> 사용자 브라우저
 
 #### 메시지 발신자에 대한 신뢰
 기대하고 있는 어플리케이션 서버가 맞는가?
-웹 푸시를 위한 URL 이 노출되어 나쁜 의도를 가진 다른 어플리케이션 서버에 의한 공격은 아닌가?
+나쁜 의도를 가진 다른 어플리케이션 서버에 의해 위장 공격은 아닌가?
 > [RFC8030](https://tools.ietf.org/html/rfc8030) 은 어플리케이션 서버의 인증을 위한 필수 시스템을 정의하지 않았다.
 **그래서 메시지를 전달하기전에는 Push Service Provider 에게 직접적으로 어플리케이션 서버의 정보에 대해 전달할 방법이 없다.**
 (이를 직접 정의할 경우 많은 제약 조건이 생기는 것을 우려했기 때문에)
@@ -47,15 +46,17 @@ Push Service Provider -> 사용자 브라우저
 
 #### Push Service Provider 에 대한 공격
 공개된 서비스로서의 Push Service Provider 는 denial-of-service attack(DDoS)에 노출되어 있다.
-무분별한 Request 공격을 어떻게 막을 수 있는가?
+무분별한 Request 공격을 어떻게 막을 수 있는가? 혹은 예방할 수 있는가?
 
 --- 
-### 취약점 보완
+## 메시지노출 문제 보완방법
 Push Service Provider 에게 메시지가 노출되는 문제는 간단한 해결방법이 있다.
 > **신뢰하거나, 직접 만들어서 운영하거나**
 
-단순한 신뢰로는 해결되지 않는,
+## 메시지 발신자 인증 및 DDoS 보완방법
 **나머지 취약점은 [비대칭키를 이용한 서명](https://en.wikipedia.org/wiki/Digital_signature)을 통해 보완 할 수 있다.**
+- **기대하고 있는 어플리케이션 서버에 의한 메시지임을 검증할 수 있다.**
+- **서명 검증으로 공격을 미리 차단하여 취약점(denial-of-service attack)을 보완한다.**
 
 *[비대칭키를 이용한 서명](https://en.wikipedia.org/wiki/Digital_signature)을 이용한 메시지 전달과정*
 ```
@@ -67,9 +68,10 @@ Push Service Provider 는 서명을 검증
 Push Service Provider 는 사용자 브라우저에 메시지를 전달
 ```
 
-**Push Service Provider 은 서명 검증 작업을 통해 위에 나타나는 문제들을 보완할 수 있다.**
-- 서명 검증을 통해 기대하고 있는 어플리케이션 서버에 의한 메시지임을 검증할 수 있다.
-- 서명 검증을 통해 공격을 미리 차단함으로써 기존의 취약점을 일부 보완한다.  
+## VAPID
+**[VAPID](https://tools.ietf.org/html/rfc8292) 는 위에서 언급한 [비대칭키를 이용한 서명](https://en.wikipedia.org/wiki/Digital_signature)을 사용한다.** 
 
-### 참고
+**[2부에서 계속]**
+
+## 참고
 [VAPID (https://tools.ietf.org/html/rfc8292)](https://tools.ietf.org/html/rfc8292)
